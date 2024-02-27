@@ -1,0 +1,25 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+  xmlns:converters2="using:CircleApp.Converts"
+  xmlns:dto="using:CircleApp.DataContracts">
+  <ResourceDictionary.MergedDictionaries>
+    <!--  Load WinUI resources  -->
+    <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+    <!--  Load Uno.UI.Toolkit resources  -->
+    <ToolkitResources xmlns="using:Uno.Toolkit.UI" />
+
+    <ResourceDictionary Source="ms-appx:///CircleApp/Styles/LocalTheme.xaml" />
+    <ResourceDictionary Source="ms-appx:///CircleApp/Styles/Controls.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <!--  Add resources here  -->
+
+  <converters:StringFormatConverter x:Key="StringFormatConverter" />
+  <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+  <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+  <converters2:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+  <converters2:ItemClickedConverter x:Key="ItemClickedConverter" />
+  <converters2:StringEqualsToVisibilityConverter x:Key="StringEqualsToVisibilityConverter" />
+  <FontFamily x:Key="FontFamilyLineAwesome">ms-appx:///CircleApp/Assets/Fonts/la-solid-900.ttf#la-solid-900</FontFamily>
+</ResourceDictionary>

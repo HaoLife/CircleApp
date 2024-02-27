@@ -1,0 +1,150 @@
+﻿<Page
+  x:Class="CircleApp.Views.LikePage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:ct="using:CircleApp.WinUI.Controls"
+  xmlns:ctw="using:CommunityToolkit.WinUI.Controls"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:CircleApp.Views"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:model="using:CircleApp.DataContracts"
+  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+  xmlns:uer="using:Uno.Extensions.Reactive.UI"
+  xmlns:ui="using:CommunityToolkit.WinUI"
+  xmlns:utu="using:Uno.Toolkit.UI"
+  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+  NavigationCacheMode="Required"
+  mc:Ignorable="d">
+  <Page.Resources>
+    <DataTemplate x:Key="user" x:DataType="model:UserDto">
+      <Grid>
+        <Image Width="190" Source="{x:Bind HeadImage}" Stretch="Uniform" />
+        <StackPanel
+          Height="40"
+          Padding="5,1,5,1"
+          VerticalAlignment="Bottom"
+          Background="LightGray"
+          Opacity=".75"
+          Orientation="Vertical">
+          <TextBlock Text="{x:Bind NickName}" />
+
+          <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind Birthday, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:yy}年'}" />
+
+            <TextBlock
+              Padding="3,0"
+              FontSize="12"
+              Foreground="{StaticResource Color666}"
+              Text="." />
+            <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind LiveAddress.City}" />
+
+            <TextBlock
+              Padding="3,0"
+              FontSize="12"
+              Foreground="{StaticResource Color666}"
+              Text="."
+              Visibility="{x:Bind Education, Converter={StaticResource StringVisibilityConverter}}" />
+            <TextBlock
+              FontSize="12"
+              Foreground="{StaticResource Color666}"
+              Text="{x:Bind Education}"
+              Visibility="{x:Bind Education, Converter={StaticResource StringVisibilityConverter}}" />
+
+            <TextBlock
+              Padding="3,0"
+              FontSize="12"
+              Foreground="{StaticResource Color666}"
+              Text="."
+              Visibility="{x:Bind Career, Converter={StaticResource StringVisibilityConverter}}" />
+            <TextBlock
+              FontSize="12"
+              Foreground="{StaticResource Color666}"
+              Text="{x:Bind Career}"
+              Visibility="{x:Bind Career, Converter={StaticResource StringVisibilityConverter}}" />
+
+          </StackPanel>
+        </StackPanel>
+
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid uen:Region.Attached="True" utu:SafeArea.Insets="All">
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <utu:NavigationBar Content="喜欢">
+      <utu:NavigationBar.MainCommand>
+        <AppBarButton Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE72B;}" />
+      </utu:NavigationBar.MainCommand>
+    </utu:NavigationBar>
+    <utu:TabBar Grid.Row="1" uen:Region.Attached="True" SelectedIndex="{Binding Selected}">
+      <utu:TabBar.Items>
+        <utu:TabBarItem uen:Region.Name="like" Content="我喜欢的" />
+        <utu:TabBarItem uen:Region.Name="belike" Content="喜欢我的" />
+        <utu:TabBarItem uen:Region.Name="visits" Content="最近访问" />
+      </utu:TabBar.Items>
+
+      <utu:TabBar.SelectionIndicatorContent>
+        <Border Height="2" VerticalAlignment="Bottom" Background="Red" />
+      </utu:TabBar.SelectionIndicatorContent>
+
+    </utu:TabBar>
+
+    <Grid Grid.Row="2" uen:Region.Attached="True" uen:Region.Navigator="Visibility">
+      <Grid uen:Region.Name="like" Visibility="Visible">
+        <GridView
+          Margin="0,5"
+          utu:CommandExtensions.Command="{Binding GoToUser}"
+          IsItemClickEnabled="True"
+          ItemTemplate="{StaticResource user}"
+          ItemsSource="{Binding Likes}"
+          SelectionMode="Single">
+          <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem">
+              <Setter Property="Margin" Value="3,0" />
+            </Style>
+          </GridView.ItemContainerStyle>
+
+        </GridView>
+
+      </Grid>
+      <Grid uen:Region.Name="belike" Visibility="Visible">
+        <GridView
+          Margin="0,5"
+          utu:CommandExtensions.Command="{Binding GoToUser}"
+          IsItemClickEnabled="True"
+          ItemTemplate="{StaticResource user}"
+          ItemsSource="{Binding BeLikes}"
+          SelectionMode="Single">
+          <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem">
+              <Setter Property="Margin" Value="3,0" />
+            </Style>
+          </GridView.ItemContainerStyle>
+        </GridView>
+
+      </Grid>
+      <Grid uen:Region.Name="visits" Visibility="Visible">
+        <GridView
+          Margin="0,5"
+          utu:CommandExtensions.Command="{Binding GoToUser}"
+          IsItemClickEnabled="True"
+          ItemTemplate="{StaticResource user}"
+          ItemsSource="{Binding Visits}"
+          SelectionMode="Single">
+          <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem">
+              <Setter Property="Margin" Value="3,0" />
+            </Style>
+          </GridView.ItemContainerStyle>
+        </GridView>
+
+      </Grid>
+    </Grid>
+
+  </Grid>
+</Page>

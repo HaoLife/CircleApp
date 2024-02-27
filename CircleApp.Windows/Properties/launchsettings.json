@@ -1,0 +1,10 @@
+{
+	"profiles": {
+		"CircleApp.Windows (Unpackaged)": {
+			"commandName": "Project"
+		},
+		"CircleApp.Windows (Package)": {
+			"commandName": "MsixPackage"
+		}
+	}
+}

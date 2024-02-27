@@ -1,0 +1,18 @@
+1.样式地址可查看名称
+D:\Windows Kits\10\DesignTime\CommonConfiguration\Neutral\UAP\10.0.22000.0\Generic
+
+问题
+1.uno ctw:SettingsCard 无法使用（包内部引用的uno.winui的版本太低的问题，因为样式是编译完生产的，不像windows是使用资源文件，在项目里面才生成）
+2.ItemsRepeater 的循环无法通过ElementName 跳出循环的绑定对象，绑定到vm上的命令。（1.5 sdk修复）https://github.com/microsoft/microsoft-ui-xaml/issues/560
+3.ApplicationData.Current 存储问题,未打包的应用上不支持获取本地地址。 https://github.com/microsoft/WindowsAppSDK/issues/2639
+4.PivotItem 延迟加载照成宽度问题 https://github.com/unoplatform/uno/pull/6982
+5.winui 不支持SystemNavigationManager.GetForCurrentView() https://github.com/microsoft/WindowsAppSDK/issues/719
+6.TwoPaneView 中的Pane1，Pane2 在模板中时 TemplateBinding 绑定模式不生效 https://github.com/unoplatform/uno/issues/14634 (重写模板，等待版本修复)
+7.ListView 选择项时不能选中或延迟（有时候生效有时候不生效） https://github.com/unoplatform/uno/issues/14792
+8.ActualWidth 和 ActualHeight 没有值问题（控件事件生效顺序问题引起的） https://github.com/unoplatform/uno/issues/2895
+9.Uno.Sdk -> TargetFrameworks 多平台资源文件生成路径错误，不会产生项目名称（如: /Assets/）  https://github.com/unoplatform/uno.templates/issues/547
+10. FlipView 在mvu模式下无法选择下一个 https://github.com/unoplatform/uno/issues/15380
+
+
+插件bug
+1.XamlStyler插件自动保持csproj文件时出错问题  https://github.com/Xavalon/XamlStyler/issues/470

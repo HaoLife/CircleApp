@@ -1,0 +1,745 @@
+﻿<Page
+  x:Class="CircleApp.Views.MainPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+  xmlns:ct="using:CircleApp.WinUI.Controls"
+  xmlns:ctw="using:CommunityToolkit.WinUI.Controls"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:dto="using:CircleApp.DataContracts"
+  xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:uen="using:Uno.Extensions.Navigation.UI"
+  xmlns:uer="using:Uno.Extensions.Reactive.UI"
+  xmlns:ui="using:CommunityToolkit.WinUI"
+  xmlns:utu="using:Uno.Toolkit.UI"
+  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+  NavigationCacheMode="Required"
+  mc:Ignorable="d">
+  <Page.Resources>
+    <DataTemplate x:Key="list" x:DataType="dto:TrendDto">
+
+      <Grid Padding="0,10">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="40" />
+          <ColumnDefinition Width="20" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="40" />
+        </Grid.ColumnDefinitions>
+        <PersonPicture
+          Grid.Row="0"
+          Grid.RowSpan="2"
+          Grid.Column="0"
+          Height="40"
+          ProfilePicture="{x:Bind Publisher.HeadImage}" />
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+          <TextBlock FontSize="12" FontWeight="Bold" Text="{x:Bind Publisher.NickName}" />
+          <ctw:SwitchPresenter TargetType="dto:Sex" Value="{x:Bind Publisher.Sex}">
+            <ctw:Case Value="Man">
+              <FontIcon
+                Margin="3,0"
+                FontFamily="{StaticResource FontFamilyLineAwesome}"
+                FontSize="12"
+                Glyph="&#xF221;" />
+            </ctw:Case>
+            <ctw:Case Value="WoMan">
+              <FontIcon
+                Margin="3,0"
+                FontFamily="{StaticResource FontFamilyLineAwesome}"
+                FontSize="12"
+                Glyph="&#xF222;" />
+            </ctw:Case>
+          </ctw:SwitchPresenter>
+
+
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+          <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind Publisher.Birthday, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:yy}年'}" />
+          <TextBlock
+            Padding="3,0"
+            FontSize="12"
+            Foreground="{StaticResource Color666}"
+            Text="." />
+          <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind Publisher.LiveAddress.City}" />
+
+          <TextBlock
+            Padding="3,0"
+            FontSize="12"
+            Foreground="{StaticResource Color666}"
+            Text="."
+            Visibility="{x:Bind Publisher.Education, Converter={StaticResource StringVisibilityConverter}}" />
+          <TextBlock
+            FontSize="12"
+            Foreground="{StaticResource Color666}"
+            Text="{x:Bind Publisher.Education}"
+            Visibility="{x:Bind Publisher.Education, Converter={StaticResource StringVisibilityConverter}}" />
+
+          <TextBlock
+            Padding="3,0"
+            FontSize="12"
+            Foreground="{StaticResource Color666}"
+            Text="."
+            Visibility="{x:Bind Publisher.Career, Converter={StaticResource StringVisibilityConverter}}" />
+          <TextBlock
+            FontSize="12"
+            Foreground="{StaticResource Color666}"
+            Text="{x:Bind Publisher.Career}"
+            Visibility="{x:Bind Publisher.Career, Converter={StaticResource StringVisibilityConverter}}" />
+
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+          <AppBarButton Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE712;}" Style="{StaticResource SwipeItemStyle}">
+            <AppBarButton.Flyout>
+              <MenuFlyout Placement="BottomEdgeAlignedRight">
+                <MenuFlyoutItem Text="关注" />
+                <MenuFlyoutItem Text="举报" />
+                <MenuFlyoutItem Text="黑名单" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="取消" />
+              </MenuFlyout>
+            </AppBarButton.Flyout>
+          </AppBarButton>
+        </StackPanel>
+        <TextBlock
+          Grid.Row="2"
+          Grid.Column="2"
+          Grid.ColumnSpan="2"
+          LineHeight="24"
+          Text="{x:Bind Content}"
+          TextWrapping="WrapWholeWords" />
+        <TextBlock
+          Grid.Row="4"
+          Grid.Column="2"
+          Grid.ColumnSpan="2"
+          Text="{x:Bind PublishTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:yyyy年MM月dd日}'}" />
+
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+  <Grid uen:Region.Attached="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="1" uen:Region.Attached="True" uen:Region.Navigator="Visibility">
+
+      <Grid Padding="10,0" uen:Region.Name="search" Visibility="Visible">
+
+        <Grid>
+          <ScrollViewer HorizontalScrollMode="Disabled">
+            <StackPanel Padding="0,0,0,90" Orientation="Vertical" Spacing="10">
+
+              <Grid Height="150" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+                <PersonPicture
+                  Grid.Column="0"
+                  Width="110"
+                  Height="110"
+                  Margin="20,0"
+                  ProfilePicture="{Binding Recommend.HeadImage}" />
+
+                <Grid Grid.Column="1" VerticalAlignment="Center">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <TextBlock FontSize="20" Text="{Binding Recommend.NickName}" />
+                  <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{Binding Recommend.Birthday, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:yy}年'}" />
+
+                    <TextBlock
+                      Padding="3,0"
+                      FontSize="12"
+                      Foreground="{StaticResource Color666}"
+                      Text="." />
+                    <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{Binding Recommend.LiveAddress.City}" />
+
+                    <TextBlock
+                      Padding="3,0"
+                      FontSize="12"
+                      Foreground="{StaticResource Color666}"
+                      Text="."
+                      Visibility="{Binding Recommend.Education, Converter={StaticResource StringVisibilityConverter}}" />
+                    <TextBlock
+                      FontSize="12"
+                      Foreground="{StaticResource Color666}"
+                      Text="{Binding Recommend.Education}"
+                      Visibility="{Binding Recommend.Education, Converter={StaticResource StringVisibilityConverter}}" />
+
+                    <TextBlock
+                      Padding="3,0"
+                      FontSize="12"
+                      Foreground="{StaticResource Color666}"
+                      Text="."
+                      Visibility="{Binding Recommend.Career, Converter={StaticResource StringVisibilityConverter}}" />
+                    <TextBlock
+                      FontSize="12"
+                      Foreground="{StaticResource Color666}"
+                      Text="{Binding Recommend.Career}"
+                      Visibility="{Binding Recommend.Career, Converter={StaticResource StringVisibilityConverter}}" />
+
+                  </StackPanel>
+                </Grid>
+              </Grid>
+
+
+              <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="关于我">
+
+                <TextBlock Text="{Binding Recommend.Detail.AboutMe}" TextWrapping="Wrap" />
+              </ctw:HeaderedContentControl>
+
+              <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="基础资料">
+                <ct:WrapPanel HorizontalSpacing="10" Orientation="Horizontal" VerticalSpacing="10">
+
+                  <StackPanel
+                    Padding="14,5"
+                    BorderBrush="{StaticResource ColorCCC}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                    <TextBlock Margin="5,0,0,0" Text="{Binding Recommend.Height, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0} cm'}" />
+                  </StackPanel>
+
+                  <StackPanel
+                    Padding="14,5"
+                    BorderBrush="{StaticResource ColorCCC}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                    <TextBlock Margin="5,0,0,0" Text="{Binding Recommend.Education}" />
+                  </StackPanel>
+
+                  <StackPanel
+                    Padding="14,5"
+                    BorderBrush="{StaticResource ColorCCC}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                    <TextBlock Margin="5,0,0,0" Text="{Binding Recommend.Career}" />
+                  </StackPanel>
+
+                  <StackPanel
+                    Padding="14,5"
+                    BorderBrush="{StaticResource ColorCCC}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                    <TextBlock Margin="5,0,0,0" Text="{Binding Recommend.MarriageStatus, Converter={StaticResource EnumDescriptionConverter}}" />
+                  </StackPanel>
+
+                  <StackPanel
+                    Padding="14,5"
+                    BorderBrush="{StaticResource ColorCCC}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                    <TextBlock Margin="5,0,0,0" Text="{Binding Recommend.LiveAddress.City}" />
+                  </StackPanel>
+
+                </ct:WrapPanel>
+              </ctw:HeaderedContentControl>
+
+              <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="兴趣爱好">
+                <TextBlock Text="{Binding Recommend.Detail.Hobby}" TextWrapping="Wrap" />
+              </ctw:HeaderedContentControl>
+
+              <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="感情观">
+
+                <TextBlock Text="{Binding Recommend.Detail.Feeling}" TextWrapping="Wrap" />
+              </ctw:HeaderedContentControl>
+
+              <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="心仪的ta">
+
+                <TextBlock Text="{Binding Recommend.Detail.Loved}" TextWrapping="Wrap" />
+              </ctw:HeaderedContentControl>
+            </StackPanel>
+          </ScrollViewer>
+
+          <Grid Padding="0,0,0,20" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="30" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+              Grid.Column="1"
+              Padding="20,10"
+              Command="{Binding HandleRecommend}"
+              CommandParameter="{ui:NullableBool Value=False}"
+              Content="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                    Glyph=&#xEF2C;}"
+              CornerRadius="10" />
+            <Button
+              Grid.Column="3"
+              Padding="20,10"
+              Command="{Binding HandleRecommend}"
+              CommandParameter="{ui:NullableBool Value=True}"
+              Content="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                    Glyph=&#xEB52;}"
+              CornerRadius="10" />
+          </Grid>
+        </Grid>
+
+      </Grid>
+
+      <!--<Grid Padding="10,0" uen:Region.Name="search" Visibility="Visible">
+        <FlipView x:Name="flipView" ItemsSource="{Binding Recommends}" Style="{StaticResource NoArrowsFlipViewStyle}">
+          <FlipView.ItemTemplate>
+            <DataTemplate x:DataType="dto:UserDto">
+
+              <Grid>
+                <ScrollViewer HorizontalScrollMode="Disabled">
+                  <StackPanel Padding="0,0,0,90" Orientation="Vertical" Spacing="10">
+
+                    <Grid Height="150" VerticalAlignment="Center">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="4*" />
+                      </Grid.ColumnDefinitions>
+                      <PersonPicture
+                        Grid.Column="0"
+                        Width="110"
+                        Height="110"
+                        Margin="20,0"
+                        ProfilePicture="{x:Bind HeadImage}" />
+
+                      <Grid Grid.Column="1" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="Auto" />
+                          <RowDefinition Height="10" />
+                          <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="20" Text="{x:Bind NickName}" />
+                        <StackPanel Grid.Row="2" Orientation="Horizontal">
+                          <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind Birthday, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:yy}年'}" />
+
+                          <TextBlock
+                            Padding="3,0"
+                            FontSize="12"
+                            Foreground="{StaticResource Color666}"
+                            Text="." />
+                          <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind LiveAddress.City}" />
+
+                          <TextBlock
+                            Padding="3,0"
+                            FontSize="12"
+                            Foreground="{StaticResource Color666}"
+                            Text="."
+                            Visibility="{x:Bind Education, Converter={StaticResource StringVisibilityConverter}}" />
+                          <TextBlock
+                            FontSize="12"
+                            Foreground="{StaticResource Color666}"
+                            Text="{x:Bind Education}"
+                            Visibility="{x:Bind Education, Converter={StaticResource StringVisibilityConverter}}" />
+
+                          <TextBlock
+                            Padding="3,0"
+                            FontSize="12"
+                            Foreground="{StaticResource Color666}"
+                            Text="."
+                            Visibility="{x:Bind Career, Converter={StaticResource StringVisibilityConverter}}" />
+                          <TextBlock
+                            FontSize="12"
+                            Foreground="{StaticResource Color666}"
+                            Text="{x:Bind Career}"
+                            Visibility="{x:Bind Career, Converter={StaticResource StringVisibilityConverter}}" />
+
+                        </StackPanel>
+                      </Grid>
+                    </Grid>
+
+
+                    <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="关于我">
+
+                      <TextBlock Text="{x:Bind Detail.AboutMe}" TextWrapping="Wrap" />
+                    </ctw:HeaderedContentControl>
+
+                    <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="基础资料">
+                      <ct:WrapPanel HorizontalSpacing="10" Orientation="Horizontal" VerticalSpacing="10">
+
+                        <StackPanel
+                          Padding="14,5"
+                          BorderBrush="{StaticResource ColorCCC}"
+                          BorderThickness="1"
+                          CornerRadius="10"
+                          Orientation="Horizontal">
+                          <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                          <TextBlock Margin="5,0,0,0" Text="{x:Bind Height, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0} cm'}" />
+                        </StackPanel>
+
+                        <StackPanel
+                          Padding="14,5"
+                          BorderBrush="{StaticResource ColorCCC}"
+                          BorderThickness="1"
+                          CornerRadius="10"
+                          Orientation="Horizontal">
+                          <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                          <TextBlock Margin="5,0,0,0" Text="{x:Bind Education}" />
+                        </StackPanel>
+
+                        <StackPanel
+                          Padding="14,5"
+                          BorderBrush="{StaticResource ColorCCC}"
+                          BorderThickness="1"
+                          CornerRadius="10"
+                          Orientation="Horizontal">
+                          <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                          <TextBlock Margin="5,0,0,0" Text="{x:Bind Career}" />
+                        </StackPanel>
+
+                        <StackPanel
+                          Padding="14,5"
+                          BorderBrush="{StaticResource ColorCCC}"
+                          BorderThickness="1"
+                          CornerRadius="10"
+                          Orientation="Horizontal">
+                          <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                          <TextBlock Margin="5,0,0,0" Text="{x:Bind MarriageStatus, Converter={StaticResource EnumDescriptionConverter}}" />
+                        </StackPanel>
+
+                        <StackPanel
+                          Padding="14,5"
+                          BorderBrush="{StaticResource ColorCCC}"
+                          BorderThickness="1"
+                          CornerRadius="10"
+                          Orientation="Horizontal">
+                          <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
+                          <TextBlock Margin="5,0,0,0" Text="{x:Bind LiveAddress.City}" />
+                        </StackPanel>
+
+                      </ct:WrapPanel>
+                    </ctw:HeaderedContentControl>
+
+                    <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="兴趣爱好">
+                      <TextBlock Text="{x:Bind Detail.Hobby}" TextWrapping="Wrap" />
+                    </ctw:HeaderedContentControl>
+
+                    <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="感情观">
+
+                      <TextBlock Text="{x:Bind Detail.Feeling}" TextWrapping="Wrap" />
+                    </ctw:HeaderedContentControl>
+
+                    <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="心仪的ta">
+
+                      <TextBlock Text="{x:Bind Detail.Loved}" TextWrapping="Wrap" />
+                    </ctw:HeaderedContentControl>
+                  </StackPanel>
+
+                </ScrollViewer>
+
+                <Grid Padding="0,0,0,20" VerticalAlignment="Bottom">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Button
+                    Grid.Column="1"
+                    Padding="20,10"
+                    utu:FlipViewExtensions.Previous="{Binding ElementName=flipView}"
+                    Content="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                          Glyph=&#xEF2C;}"
+                    CornerRadius="10" />
+
+                  <Button
+                    Grid.Column="3"
+                    Padding="20,10"
+                    utu:FlipViewExtensions.Next="{Binding ElementName=flipView}"
+                    Content="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                          Glyph=&#xEB52;}"
+                    CornerRadius="10" />
+                </Grid>
+              </Grid>
+            </DataTemplate>
+          </FlipView.ItemTemplate>
+
+        </FlipView>
+      </Grid>-->
+
+      <Grid uen:Region.Name="square" Visibility="Collapsed">
+        <Grid uen:Region.Attached="True">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <utu:TabBar Grid.Row="0" uen:Region.Attached="True" SelectedIndex="1">
+            <utu:TabBar.Items>
+              <utu:TabBarItem uen:Region.Name="care" Content="关注" />
+              <utu:TabBarItem uen:Region.Name="new" Content="最新" />
+              <utu:TabBarItem uen:Region.Name="samecity" Content="同城" />
+            </utu:TabBar.Items>
+
+            <utu:TabBar.SelectionIndicatorContent>
+              <Border Height="2" VerticalAlignment="Bottom" Background="Red" />
+            </utu:TabBar.SelectionIndicatorContent>
+
+          </utu:TabBar>
+
+          <Grid Grid.Row="1" uen:Region.Attached="True" uen:Region.Navigator="Visibility">
+            <Grid uen:Region.Name="care" Visibility="Collapsed">
+              <RefreshContainer uer:RefreshContainerExtensions.Command="{Binding UpdateItemTrends}" uer:RefreshContainerExtensions.CommandParameter="0">
+                <ListView
+                  utu:CommandExtensions.Command="{Binding GoToTrend}"
+                  IsItemClickEnabled="True"
+                  ItemTemplate="{StaticResource list}"
+                  ItemsSource="{Binding CareTrends}"
+                  SelectionMode="Single" />
+              </RefreshContainer>
+            </Grid>
+            <Grid uen:Region.Name="new" Visibility="Visible">
+              <RefreshContainer uer:RefreshContainerExtensions.Command="{Binding UpdateItemTrends}" uer:RefreshContainerExtensions.CommandParameter="1">
+                <ListView
+                  utu:CommandExtensions.Command="{Binding GoToTrend}"
+                  IsItemClickEnabled="True"
+                  ItemTemplate="{StaticResource list}"
+                  ItemsSource="{Binding NewTrends}"
+                  SelectionMode="Single" />
+              </RefreshContainer>
+            </Grid>
+            <Grid uen:Region.Name="samecity" Visibility="Collapsed">
+
+              <RefreshContainer uer:RefreshContainerExtensions.Command="{Binding UpdateItemTrends}" uer:RefreshContainerExtensions.CommandParameter="2">
+                <ListView
+                  utu:CommandExtensions.Command="{Binding GoToTrend}"
+                  IsItemClickEnabled="True"
+                  ItemTemplate="{StaticResource list}"
+                  ItemsSource="{Binding SameCityTrends}"
+                  SelectionMode="Single" />
+              </RefreshContainer>
+            </Grid>
+          </Grid>
+        </Grid>
+
+      </Grid>
+
+      <!--<StackPanel uen:Region.Name="circle" Visibility="Collapsed">
+        <TextBlock Text="圈子" />
+
+      </StackPanel>-->
+
+      <Grid uen:Region.Name="message" Visibility="Collapsed">
+
+        <ListView
+          utu:CommandExtensions.Command="{Binding GetMessage}"
+          IsItemClickEnabled="True"
+          ItemsSource="{Binding Contacts}"
+          SelectionMode="Single">
+          <ListView.ItemTemplate>
+            <DataTemplate x:DataType="dto:ContactDto">
+              <Grid Padding="0,5">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <PersonPicture
+                  Grid.RowSpan="2"
+                  Width="32"
+                  Height="32"
+                  Margin="6"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  ProfilePicture="{x:Bind ContactUser.HeadImage}" />
+
+                <TextBlock
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="12,6,0,0"
+                  Style="{ThemeResource BaseTextBlockStyle}"
+                  Text="{x:Bind ContactUser.NickName}" />
+                <TextBlock
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="2"
+                  Margin="12,0,0,6"
+                  Style="{ThemeResource BodyTextBlockStyle}"
+                  Text="{x:Bind LastMessage}" />
+
+                <TextBlock
+                  Grid.Column="2"
+                  Margin="12,6,0,0"
+                  Style="{ThemeResource BaseTextBlockStyle}"
+                  Text="{x:Bind AddTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:MM月dd日}'}" />
+
+              </Grid>
+
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+
+      </Grid>
+      <ScrollViewer uen:Region.Name="me" Visibility="Collapsed">
+        <StackPanel Margin="10,6" Spacing="4">
+          <StackPanel>
+            <PersonPicture ProfilePicture="{Binding Me.HeadImage}" />
+            <TextBlock
+              Margin="0,12"
+              HorizontalAlignment="Stretch"
+              FontSize="20"
+              FontWeight="Bold"
+              HorizontalTextAlignment="Center"
+              Text="{Binding Me.NickName}" />
+          </StackPanel>
+          <Grid Padding="0,0,0,10">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button
+              Grid.Column="0"
+              HorizontalAlignment="Stretch"
+              Background="Transparent"
+              BorderThickness="0"
+              Command="{Binding GoToLike}"
+              CommandParameter="0">
+              <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="22" Text="{Binding Like.LikeCount}" TextAlignment="Center" />
+                <TextBlock FontSize="10" Text="我喜欢的" TextAlignment="Center" />
+
+              </StackPanel>
+            </Button>
+
+            <Button
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              Background="Transparent"
+              BorderThickness="0"
+              Command="{Binding GoToLike}"
+              CommandParameter="1">
+              <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="22" Text="{Binding Like.BeLikeCount}" TextAlignment="Center" />
+                <TextBlock FontSize="10" Text="喜欢我的" TextAlignment="Center" />
+
+              </StackPanel>
+            </Button>
+            <Button
+              Grid.Column="2"
+              HorizontalAlignment="Stretch"
+              Background="Transparent"
+              BorderThickness="0"
+              Command="{Binding GoToLike}"
+              CommandParameter="2">
+              <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="22" Text="{Binding Like.VisitCount}" TextAlignment="Center" />
+                <TextBlock FontSize="10" Text="最近来访" TextAlignment="Center" />
+
+              </StackPanel>
+            </Button>
+          </Grid>
+          <ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="广场">
+            <StackPanel Height="Auto" Orientation="Horizontal">
+              <AppBarButton Width="100" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE724;}" Label="我的动态" />
+              <AppBarButton Width="100" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE90A;}" Label="我的评论" />
+              <AppBarButton Width="100" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE8E1;}" Label="我的点赞" />
+
+            </StackPanel>
+          </ctw:HeaderedContentControl>
+
+          <!--<ctw:HeaderedContentControl HorizontalContentAlignment="Stretch" Header="圈子">
+
+            <StackPanel Orientation="Horizontal">
+              <AppBarButton
+                Width="100"
+                Command="{Binding GoToRoute}"
+                CommandParameter="Second"
+                Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                   Glyph=&#xED5F;}"
+                Label="参与" />
+              <AppBarButton
+                Width="100"
+                Command="{Binding GoToRoute}"
+                CommandParameter="Privacy"
+                Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                   Glyph=&#xE81C;}"
+                Label="历史" />
+            </StackPanel>
+          </ctw:HeaderedContentControl>-->
+
+          <ctw:SettingsCard
+            Command="{Binding GoToRoute}"
+            CommandParameter="Privacy"
+            Description="你的个人隐私内容"
+            Header="隐私设置"
+            HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                     Glyph=&#xEC19;}"
+            IsClickEnabled="True" />
+
+          <ctw:SettingsCard
+            Command="{Binding GoToRoute}"
+            CommandParameter="Setting"
+            Description="点击修改系统配置"
+            Header="设置"
+            HeaderIcon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
+                                     Glyph='&#xE713;'}"
+            IsClickEnabled="True" />
+
+        </StackPanel>
+      </ScrollViewer>
+
+    </Grid>
+    <utu:TabBar
+      x:Name="Tabs"
+      Grid.Row="2"
+      uen:Region.Attached="True"
+      CornerRadius="0"
+      SelectedIndex="0">
+      <utu:TabBar.Items>
+        <utu:TabBarItem uen:Region.Name="search" Content="寻觅" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE721;}" />
+        <utu:TabBarItem uen:Region.Name="square" Content="广场" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE80F;}" />
+        <!--<utu:TabBarItem uen:Region.Name="circle" Content="圈子" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE902;}" />-->
+        <utu:TabBarItem uen:Region.Name="message" Content="消息" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE8F2;}" />
+        <utu:TabBarItem uen:Region.Name="me" Content="我的" Icon="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily}, Glyph=&#xE716;}" />
+      </utu:TabBar.Items>
+    </utu:TabBar>
+
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup>
+
+        <VisualState x:Name="Narrow">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="0" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Tabs.Visibility" Value="Visible" />
+          </VisualState.Setters>
+        </VisualState>
+        <VisualState x:Name="Normal">
+          <VisualState.StateTriggers>
+            <AdaptiveTrigger MinWindowWidth="720" />
+          </VisualState.StateTriggers>
+          <VisualState.Setters>
+            <Setter Target="Tabs.Visibility" Value="Collapsed" />
+          </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+  </Grid>
+
+</Page>
