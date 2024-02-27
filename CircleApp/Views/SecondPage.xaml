@@ -7,7 +7,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:model="using:CircleApp.DataContracts"
   xmlns:uen="using:Uno.Extensions.Navigation.UI"
-  xmlns:uer="using:Uno.Extensions.Reactive.UI"
   xmlns:ui="using:CommunityToolkit.WinUI"
   xmlns:utu="using:Uno.Toolkit.UI"
   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

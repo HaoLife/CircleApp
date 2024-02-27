@@ -1,11 +1,11 @@
-namespace CircleApp.Models;
+namespace CircleApp.ViewModels;
 
-public partial record UserModel
+public partial class UserViewModel : ObservableObject
 {
     private readonly INavigator navigator;
     private readonly IDispatcher dispatcher;
 
-    public UserModel(INavigator navigator, IDispatcher dispatcher, UserDto user)
+    public UserViewModel(INavigator navigator, IDispatcher dispatcher, UserDto user)
     {
         this.navigator = navigator;
         this.dispatcher = dispatcher;

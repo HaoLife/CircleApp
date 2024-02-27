@@ -9,7 +9,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:model="using:CircleApp.DataContracts"
   xmlns:uen="using:Uno.Extensions.Navigation.UI"
-  xmlns:uer="using:Uno.Extensions.Reactive.UI"
   xmlns:ui="using:CommunityToolkit.WinUI"
   xmlns:utu="using:Uno.Toolkit.UI"
   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -18,7 +17,7 @@
   <Page.Resources>
     <DataTemplate x:Key="user" x:DataType="model:UserDto">
       <Grid>
-        <Image Width="190" Source="{x:Bind HeadImage}" Stretch="Uniform" />
+        <Image Width="175" Source="{x:Bind HeadImage}" Stretch="Uniform" />
         <StackPanel
           Height="40"
           Padding="5,1,5,1"
@@ -98,7 +97,7 @@
       <Grid uen:Region.Name="like" Visibility="Visible">
         <GridView
           Margin="0,5"
-          utu:CommandExtensions.Command="{Binding GoToUser}"
+          utu:CommandExtensions.Command="{Binding GoToUserCommand}"
           IsItemClickEnabled="True"
           ItemTemplate="{StaticResource user}"
           ItemsSource="{Binding Likes}"
@@ -115,7 +114,7 @@
       <Grid uen:Region.Name="belike" Visibility="Visible">
         <GridView
           Margin="0,5"
-          utu:CommandExtensions.Command="{Binding GoToUser}"
+          utu:CommandExtensions.Command="{Binding GoToUserCommand}"
           IsItemClickEnabled="True"
           ItemTemplate="{StaticResource user}"
           ItemsSource="{Binding BeLikes}"
@@ -131,7 +130,7 @@
       <Grid uen:Region.Name="visits" Visibility="Visible">
         <GridView
           Margin="0,5"
-          utu:CommandExtensions.Command="{Binding GoToUser}"
+          utu:CommandExtensions.Command="{Binding GoToUserCommand}"
           IsItemClickEnabled="True"
           ItemTemplate="{StaticResource user}"
           ItemsSource="{Binding Visits}"

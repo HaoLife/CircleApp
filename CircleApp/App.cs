@@ -65,17 +65,17 @@ public class App : Microsoft.UI.Xaml.Application
                     services.AddTransient<DelegatingHandler, DebugHttpHandler>();
 #endif
 
+#if DEBUG
+
                     services.AddTransient<ITrendService, MockTrendService>()
                         .AddTransient<IContactService, MockContactService>()
                         .AddTransient<IUserService, MockUserService>()
                         .AddTransient<IMessageRecordService, MockMessageRecordService>();
-
-#if !DEBUG
-
-                    //services.AddRefitClient<ITrendService>(context)
-                    //    .AddRefitClient<IContactService>(context)
-                    //    .AddRefitClient<IUserService>(context)
-                    //    .AddRefitClient<IMessageRecordService>(context);
+#else
+                    services.AddRefitClient<ITrendService>(context)
+                        .AddRefitClient<IContactService>(context)
+                        .AddRefitClient<IUserService>(context)
+                        .AddRefitClient<IMessageRecordService>(context);
 #endif
 
                     services.AddSingleton<IWeatherCache, WeatherCache>()
@@ -88,7 +88,7 @@ public class App : Microsoft.UI.Xaml.Application
                         custom.Login((sp, dispatcher, credentials, cancellationToken) =>
                         {
                             // TODO: Write code to process credentials that are passed into the LoginAsync method
-                            if (credentials?.TryGetValue(nameof(LoginModel.Username), out var username) ?? false &&
+                            if (credentials?.TryGetValue(nameof(LoginViewModel.Username), out var username) ?? false &&
                                 !username.IsNullOrEmpty())
                             {
                                 // Return IDictionary containing any tokens used by service calls or in the app
@@ -135,7 +135,7 @@ public class App : Microsoft.UI.Xaml.Application
 #endif
 
                 })
-                .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
+                .UseNavigation(RegisterRoutes)
             );
         MainWindow = builder.Window;
 
@@ -154,11 +154,11 @@ public class App : Microsoft.UI.Xaml.Application
 #endif
             if (authenticated)
             {
-                await navigator.NavigateViewModelAsync<FullModel>(this, qualifier: Qualifiers.Nested);
+                await navigator.NavigateViewModelAsync<FullViewModel>(this, qualifier: Qualifiers.Nested);
             }
             else
             {
-                await navigator.NavigateViewModelAsync<GuideModel>(this, qualifier: Qualifiers.Nested);
+                await navigator.NavigateViewModelAsync<GuideViewModel>(this, qualifier: Qualifiers.Nested);
             }
         });
     }
@@ -167,36 +167,36 @@ public class App : Microsoft.UI.Xaml.Application
     {
 
         views.Register(new ViewMap[] {
-            new ViewMap(ViewModel: typeof(ShellModel)),
-            new ViewMap<Full,FullModel>(),
-            new ViewMap<GuidePage, GuideModel>(),
-            new ViewMap<MainPage, MainModel>(),
-            new ViewMap<LoginPage, LoginModel>(),
-            new ViewMap<SecondPage, SecondModel>(),
-            new ViewMap<SecondPage, SecondModel>(),
-            new ViewMap<SettingPage, SettingModel>(),
-            new ViewMap<PrivacyPage, PrivacyModel>(),
-            new DataViewMap<TrendPage, TrendModel, TrendDto>(),
-            new DataViewMap<MessagePage, MessageModel, ContactDto>(),
-            new DataViewMap<LikePage, LikeModel, SelectInt>(),
-            new DataViewMap<UserPage, UserModel, UserDto>(),
+            new ViewMap(ViewModel: typeof(ShellViewModel)),
+            new ViewMap<Full,FullViewModel>(),
+            new ViewMap<GuidePage, GuideViewModel>(),
+            new ViewMap<MainPage, MainViewModel>(),
+            new ViewMap<LoginPage, LoginViewModel>(),
+            new ViewMap<SecondPage, SecondViewModel>(),
+            new ViewMap<SecondPage, SecondViewModel>(),
+            new ViewMap<SettingPage, SettingViewModel>(),
+            new ViewMap<PrivacyPage, PrivacyViewModel>(),
+            new DataViewMap<TrendPage, TrendViewModel, TrendDto>(),
+            new DataViewMap<MessagePage, MessageViewModel, ContactDto>(),
+            new DataViewMap<LikePage, LikeViewModel, SelectInt>(),
+            new DataViewMap<UserPage, UserViewModel, UserDto>(),
         });
 
         routes.Register(
-            new RouteMap("", View: views.FindByViewModel<ShellModel>(),
+            new RouteMap("", View: views.FindByViewModel<ShellViewModel>(),
                 Nested: new RouteMap[]
                 {
-                    new RouteMap("Full", View: views.FindByViewModel<FullModel>()),
-                    new RouteMap("Guide", View: views.FindByViewModel<GuideModel>()),
-                    new RouteMap("Main", View: views.FindByViewModel<MainModel>()),
-                    new RouteMap("Login", View: views.FindByViewModel<LoginModel>()),
-                    new RouteMap("Second", View: views.FindByViewModel<SecondModel>()),
-                    new RouteMap("Setting",View:views.FindByViewModel<SettingModel>()),
-                    new RouteMap("Privacy",View:views.FindByViewModel<PrivacyModel>()),
-                    new RouteMap("Trend",View:views.FindByViewModel<TrendModel>()),
-                    new RouteMap("Message",View:views.FindByViewModel<MessageModel>()),
-                    new RouteMap("Like",View:views.FindByViewModel<LikeModel>()),
-                    new RouteMap("User",View:views.FindByViewModel<UserModel>()),
+                    new RouteMap("Full", View: views.FindByViewModel<FullViewModel>()),
+                    new RouteMap("Guide", View: views.FindByViewModel<GuideViewModel>()),
+                    new RouteMap("Main", View: views.FindByViewModel<MainViewModel>()),
+                    new RouteMap("Login", View: views.FindByViewModel<LoginViewModel>()),
+                    new RouteMap("Second", View: views.FindByViewModel<SecondViewModel>()),
+                    new RouteMap("Setting",View:views.FindByViewModel<SettingViewModel>()),
+                    new RouteMap("Privacy",View:views.FindByViewModel<PrivacyViewModel>()),
+                    new RouteMap("Trend",View:views.FindByViewModel<TrendViewModel>()),
+                    new RouteMap("Message",View:views.FindByViewModel<MessageViewModel>()),
+                    new RouteMap("Like",View:views.FindByViewModel<LikeViewModel>()),
+                    new RouteMap("User",View:views.FindByViewModel<UserViewModel>()),
                 }
             )
         );

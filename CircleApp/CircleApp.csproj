@@ -43,9 +43,9 @@
     <PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
     <PackageReference Include="Uno.Extensions.Navigation.WinUI" />
     <!-- mvux 模式包 -->
-    <PackageReference Include="Uno.Extensions.Reactive.WinUI"/>
+    <!--<PackageReference Include="Uno.Extensions.Reactive.WinUI"/>-->
     <!-- mvvm 模式包-->
-    <!--<PackageReference Include="CommunityToolkit.Mvvm" />-->
+    <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Condition="$(TargetFramework.Contains('windows10'))" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="$(TargetFramework.Contains('windows10'))" />

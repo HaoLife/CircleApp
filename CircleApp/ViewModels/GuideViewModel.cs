@@ -1,22 +1,27 @@
-namespace CircleApp.Models;
 
-public partial record GuideModel
+namespace CircleApp.ViewModels;
+
+public partial class GuideViewModel : ObservableObject
 {
     private readonly INavigator navigator;
     private readonly IDispatcher dispatcher;
 
-    public GuideModel(INavigator navigator, IDispatcher dispatcher)
+    public GuideViewModel(INavigator navigator, IDispatcher dispatcher)
     {
         this.navigator = navigator;
         this.dispatcher = dispatcher;
+        this.GoToLoginCommand = new AsyncRelayCommand(GoToLogin);
     }
-    public IState<bool> Checked => State<bool>.Value(this, () => false);
 
+    [ObservableProperty]
+    private bool _checked = false;
+
+    public ICommand GoToLoginCommand { get; }
 
 
     public async Task GoToLogin()
     {
-        var ck = await this.Checked;
+        var ck = this.Checked;
 
         if (!ck)
         {
@@ -24,23 +29,6 @@ public partial record GuideModel
             await this.navigator.ShowMessageDialogAsync(this,
                 content: "请先勾选同意下面的《用户协议》等内容",
                 cancellation: cancelSource.Token);
-
-
-            //var t = new ContentDialog()
-            //{
-            //    Title = "测试",
-            //    Content = "我的内容",
-            //};
-
-
-            //Task.Factory.StartNew(async () =>
-            //{
-            //    await Task.Delay(500);
-
-            //    t.Hide();
-            //});
-
-            // await t.ShowAsync();
 
             return;
         }

@@ -8,7 +8,6 @@
   mc:Ignorable="d"
   xmlns:uen="using:Uno.Extensions.Navigation.UI"
   xmlns:utu="using:Uno.Toolkit.UI"
-  xmlns:uer="using:Uno.Extensions.Reactive.UI"
   xmlns:model="using:CircleApp.DataContracts" 
   xmlns:ctw="using:CommunityToolkit.WinUI.Controls"
   xmlns:ui="using:CommunityToolkit.WinUI"

@@ -25,7 +25,7 @@
 
   <ItemGroup>
 
-    <PackageReference Include="Uno.WinUI" Condition="!$(TargetFramework.Contains('windows10'))"  />
+    <PackageReference Include="Uno.WinUI" />
     <PackageReference Include="CommunityToolkit.WinUI.Triggers" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Condition="$(TargetFramework.Contains('windows10'))" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Condition="$(TargetFramework.Contains('windows10'))" />

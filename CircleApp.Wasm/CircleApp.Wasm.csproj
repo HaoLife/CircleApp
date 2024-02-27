@@ -20,8 +20,8 @@
 
       NOTE: This feature is still considered experimental by the dotnet team
     -->
-    <WasmShellEnableThreads>true</WasmShellEnableThreads>
-    <WasmShellPThreadsPoolSize>8</WasmShellPThreadsPoolSize>
+    <!--<WasmShellEnableThreads>true</WasmShellEnableThreads>-->
+    <!--<WasmShellPThreadsPoolSize>8</WasmShellPThreadsPoolSize>-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <MonoRuntimeDebuggerEnabled>true</MonoRuntimeDebuggerEnabled>

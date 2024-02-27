@@ -1,11 +1,11 @@
-namespace CircleApp.Models;
+namespace CircleApp.ViewModels;
 
-public class ShellModel
+public partial class ShellViewModel : ObservableObject
 {
     private readonly IAuthenticationService authentication;
     private readonly INavigator _navigator;
 
-    public ShellModel(
+    public ShellViewModel(
         IAuthenticationService authentication,
         INavigator navigator)
     {
@@ -26,6 +26,6 @@ public class ShellModel
 
     private async void LoggedOut(object? sender, EventArgs e)
     {
-        await _navigator.NavigateViewModelAsync<LoginModel>(this, qualifier: Qualifiers.ClearBackStack);
+        await _navigator.NavigateViewModelAsync<LoginViewModel>(this, qualifier: Qualifiers.ClearBackStack);
     }
 }

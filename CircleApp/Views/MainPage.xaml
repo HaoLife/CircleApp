@@ -10,8 +10,8 @@
   xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:uen="using:Uno.Extensions.Navigation.UI"
-  xmlns:uer="using:Uno.Extensions.Reactive.UI"
   xmlns:ui="using:CommunityToolkit.WinUI"
+  xmlns:mui="using:CircleApp.Markup"
   xmlns:utu="using:Uno.Toolkit.UI"
   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
   NavigationCacheMode="Required"
@@ -283,7 +283,7 @@
             <Button
               Grid.Column="1"
               Padding="20,10"
-              Command="{Binding HandleRecommend}"
+              Command="{Binding HandleRecommendCommand}"
               CommandParameter="{ui:NullableBool Value=False}"
               Content="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
                                     Glyph=&#xEF2C;}"
@@ -291,7 +291,7 @@
             <Button
               Grid.Column="3"
               Padding="20,10"
-              Command="{Binding HandleRecommend}"
+              Command="{Binding HandleRecommendCommand}"
               CommandParameter="{ui:NullableBool Value=True}"
               Content="{ui:FontIcon FontFamily={StaticResource SymbolThemeFontFamily},
                                     Glyph=&#xEB52;}"
@@ -498,9 +498,17 @@
 
           <Grid Grid.Row="1" uen:Region.Attached="True" uen:Region.Navigator="Visibility">
             <Grid uen:Region.Name="care" Visibility="Collapsed">
-              <RefreshContainer uer:RefreshContainerExtensions.Command="{Binding UpdateItemTrends}" uer:RefreshContainerExtensions.CommandParameter="0">
+              <RefreshContainer>
+                <interactivity:Interaction.Behaviors>
+                  <core:EventTriggerBehavior EventName="RefreshRequested">
+                    <core:EventTriggerBehavior.Actions>
+                      <core:InvokeCommandAction Command="{Binding UpdateItemTrendsCommand}" CommandParameter="{mui:NullableIntExtension Value=0}" />
+                    </core:EventTriggerBehavior.Actions>
+                  </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+
                 <ListView
-                  utu:CommandExtensions.Command="{Binding GoToTrend}"
+                  utu:CommandExtensions.Command="{Binding GoToTrendCommand}"
                   IsItemClickEnabled="True"
                   ItemTemplate="{StaticResource list}"
                   ItemsSource="{Binding CareTrends}"
@@ -508,9 +516,16 @@
               </RefreshContainer>
             </Grid>
             <Grid uen:Region.Name="new" Visibility="Visible">
-              <RefreshContainer uer:RefreshContainerExtensions.Command="{Binding UpdateItemTrends}" uer:RefreshContainerExtensions.CommandParameter="1">
+              <RefreshContainer>
+                <interactivity:Interaction.Behaviors>
+                  <core:EventTriggerBehavior EventName="RefreshRequested">
+                    <core:EventTriggerBehavior.Actions>
+                      <core:InvokeCommandAction Command="{Binding UpdateItemTrendsCommand}" CommandParameter="{mui:NullableIntExtension Value=1}" />
+                    </core:EventTriggerBehavior.Actions>
+                  </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <ListView
-                  utu:CommandExtensions.Command="{Binding GoToTrend}"
+                  utu:CommandExtensions.Command="{Binding GoToTrendCommand}"
                   IsItemClickEnabled="True"
                   ItemTemplate="{StaticResource list}"
                   ItemsSource="{Binding NewTrends}"
@@ -519,9 +534,16 @@
             </Grid>
             <Grid uen:Region.Name="samecity" Visibility="Collapsed">
 
-              <RefreshContainer uer:RefreshContainerExtensions.Command="{Binding UpdateItemTrends}" uer:RefreshContainerExtensions.CommandParameter="2">
+              <RefreshContainer>
+                <interactivity:Interaction.Behaviors>
+                  <core:EventTriggerBehavior EventName="RefreshRequested">
+                    <core:EventTriggerBehavior.Actions>
+                      <core:InvokeCommandAction Command="{Binding UpdateItemTrendsCommand}" CommandParameter="{mui:NullableIntExtension Value=2}" />
+                    </core:EventTriggerBehavior.Actions>
+                  </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <ListView
-                  utu:CommandExtensions.Command="{Binding GoToTrend}"
+                  utu:CommandExtensions.Command="{Binding GoToTrendCommand}"
                   IsItemClickEnabled="True"
                   ItemTemplate="{StaticResource list}"
                   ItemsSource="{Binding SameCityTrends}"
@@ -541,7 +563,7 @@
       <Grid uen:Region.Name="message" Visibility="Collapsed">
 
         <ListView
-          utu:CommandExtensions.Command="{Binding GetMessage}"
+          utu:CommandExtensions.Command="{Binding GetMessageCommand}"
           IsItemClickEnabled="True"
           ItemsSource="{Binding Contacts}"
           SelectionMode="Single">
@@ -617,7 +639,7 @@
               HorizontalAlignment="Stretch"
               Background="Transparent"
               BorderThickness="0"
-              Command="{Binding GoToLike}"
+              Command="{Binding GoToLikeCommand}"
               CommandParameter="0">
               <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="22" Text="{Binding Like.LikeCount}" TextAlignment="Center" />
@@ -631,7 +653,7 @@
               HorizontalAlignment="Stretch"
               Background="Transparent"
               BorderThickness="0"
-              Command="{Binding GoToLike}"
+              Command="{Binding GoToLikeCommand}"
               CommandParameter="1">
               <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="22" Text="{Binding Like.BeLikeCount}" TextAlignment="Center" />
@@ -644,7 +666,7 @@
               HorizontalAlignment="Stretch"
               Background="Transparent"
               BorderThickness="0"
-              Command="{Binding GoToLike}"
+              Command="{Binding GoToLikeCommand}"
               CommandParameter="2">
               <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="22" Text="{Binding Like.VisitCount}" TextAlignment="Center" />
@@ -683,7 +705,7 @@
           </ctw:HeaderedContentControl>-->
 
           <ctw:SettingsCard
-            Command="{Binding GoToRoute}"
+            Command="{Binding GoToRouteCommand}"
             CommandParameter="Privacy"
             Description="你的个人隐私内容"
             Header="隐私设置"
@@ -692,7 +714,7 @@
             IsClickEnabled="True" />
 
           <ctw:SettingsCard
-            Command="{Binding GoToRoute}"
+            Command="{Binding GoToRouteCommand}"
             CommandParameter="Setting"
             Description="点击修改系统配置"
             Header="设置"
