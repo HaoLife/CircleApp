@@ -27,11 +27,11 @@ public class MockUserService : IUserService
                 SocializeTargetStatus = SocializeTargetStatus.ShortTerm,
                 Detail=new UserDetailDto()
                 {
-                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙",
+                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙 1",
                     MyVoice="这是我的声音",
                     Hobby="喜欢吃，觉得美食能够治愈心情！休息日会和朋友探店，有时候自己一个人会去跑步爬山，或者在宿舍看书，如果有时间，想去看看祖国大好山河",
                     Feeling="只为遇到你",
-                    Loved="等待！",
+                    Loved="等待！1",
                 }
 
             },
@@ -54,7 +54,7 @@ public class MockUserService : IUserService
                 SocializeTargetStatus = SocializeTargetStatus.ShortTerm,
                 Detail=new UserDetailDto()
                 {
-                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙",
+                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙 2",
                     MyVoice="这是我的声音",
                     Hobby="喜欢吃，觉得美食能够治愈心情！休息日会和朋友探店，有时候自己一个人会去跑步爬山，或者在宿舍看书，如果有时间，想去看看祖国大好山河",
                     Feeling="只为遇到你",
@@ -80,7 +80,7 @@ public class MockUserService : IUserService
                 SocializeTargetStatus = SocializeTargetStatus.ShortTerm,
                 Detail=new UserDetailDto()
                 {
-                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙",
+                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙 3",
                     MyVoice="这是我的声音",
                     Hobby="喜欢吃，觉得美食能够治愈心情！休息日会和朋友探店，有时候自己一个人会去跑步爬山，或者在宿舍看书，如果有时间，想去看看祖国大好山河",
                     Feeling="只为遇到你",
@@ -106,11 +106,11 @@ public class MockUserService : IUserService
                 SocializeTargetStatus = SocializeTargetStatus.ShortTerm,
                 Detail=new UserDetailDto()
                 {
-                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙",
+                    AboutMe="经常外出很少宅在家里，有点理想化，不愿将就。\r\n工作不是很忙 4",
                     MyVoice="这是我的声音",
                     Hobby="喜欢吃，觉得美食能够治愈心情！休息日会和朋友探店，有时候自己一个人会去跑步爬山，或者在宿舍看书，如果有时间，想去看看祖国大好山河",
                     Feeling="只为遇到你",
-                    Loved="等待！",
+                    Loved="等待！4",
                 }
             },
         };

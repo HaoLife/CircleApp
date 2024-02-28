@@ -65,18 +65,18 @@ public class App : Microsoft.UI.Xaml.Application
                     services.AddTransient<DelegatingHandler, DebugHttpHandler>();
 #endif
 
-#if !DEBUG
+//#if !DEBUG
 
                     services.AddTransient<ITrendService, MockTrendService>()
                         .AddTransient<IContactService, MockContactService>()
                         .AddTransient<IUserService, MockUserService>()
                         .AddTransient<IMessageRecordService, MockMessageRecordService>();
-#else
-                    services.AddRefitClient<ITrendService>(context)
-                        .AddRefitClient<IContactService>(context)
-                        .AddRefitClient<IUserService>(context)
-                        .AddRefitClient<IMessageRecordService>(context);
-#endif
+//#else
+//                    services.AddRefitClient<ITrendService>(context)
+//                        .AddRefitClient<IContactService>(context)
+//                        .AddRefitClient<IUserService>(context)
+//                        .AddRefitClient<IMessageRecordService>(context);
+//#endif
 
                     services.AddSingleton<IWeatherCache, WeatherCache>()
                         .AddRefitClient<IApiClient>(context);
