@@ -37,7 +37,7 @@
               Text="." />
             <TextBlock FontSize="12" Foreground="{StaticResource Color666}" Text="{x:Bind LiveAddress.City}" />
 
-            <TextBlock
+            <!--<TextBlock
               Padding="3,0"
               FontSize="12"
               Foreground="{StaticResource Color666}"
@@ -59,7 +59,7 @@
               FontSize="12"
               Foreground="{StaticResource Color666}"
               Text="{x:Bind Career}"
-              Visibility="{x:Bind Career, Converter={StaticResource StringVisibilityConverter}}" />
+              Visibility="{x:Bind Career, Converter={StaticResource StringVisibilityConverter}}" />-->
 
           </StackPanel>
         </StackPanel>
