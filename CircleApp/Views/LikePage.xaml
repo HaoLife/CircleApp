@@ -17,7 +17,7 @@
   <Page.Resources>
     <DataTemplate x:Key="user" x:DataType="model:UserDto">
       <Grid>
-        <Image Width="175" Source="{x:Bind HeadImage}" Stretch="Uniform" />
+        <Image Width="170" Source="{x:Bind HeadImage}" Stretch="Uniform" />
         <StackPanel
           Height="40"
           Padding="5,1,5,1"
